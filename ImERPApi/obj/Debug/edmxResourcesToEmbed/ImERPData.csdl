@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ImERPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Color">
+    <Key>
+      <PropertyRef Name="ColorId" />
+    </Key>
+    <Property Name="ColorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="RawMaterials" Relationship="Self.FK_RawMaterials_Colors" FromRole="Colors" ToRole="RawMaterials" />
+    <NavigationProperty Name="Colors1" Relationship="ImERPModel.FK_Colors_Colors" FromRole="Color" ToRole="Color1" />
+    <NavigationProperty Name="Color1" Relationship="ImERPModel.FK_Colors_Colors" FromRole="Color1" ToRole="Color" />
+  </EntityType>
+  <EntityType Name="RawMaterial">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Weight" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ColorId" Type="Int32" />
+    <Property Name="UnitId" Type="Int32" />
+    <Property Name="SupplierId" Type="Int32" />
+    <Property Name="Createdby" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <NavigationProperty Name="Color" Relationship="Self.FK_RawMaterials_Colors" FromRole="RawMaterials" ToRole="Colors" />
+    <NavigationProperty Name="Supplier" Relationship="Self.FK_RawMaterials_Suppliers" FromRole="RawMaterials" ToRole="Suppliers" />
+    <NavigationProperty Name="Unit" Relationship="Self.FK_RawMaterials_Units" FromRole="RawMaterials" ToRole="Units" />
+    <Property Name="DepartmentID" Type="Int32" />
+    <NavigationProperty Name="Department" Relationship="ImERPModel.FK_RawMaterials_Departments" FromRole="RawMaterial" ToRole="Department" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="RawMaterials" Relationship="Self.FK_RawMaterials_Suppliers" FromRole="Suppliers" ToRole="RawMaterials" />
+  </EntityType>
+  <EntityType Name="Unit">
+    <Key>
+      <PropertyRef Name="UnitId" />
+    </Key>
+    <Property Name="UnitId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="RawMaterials" Relationship="Self.FK_RawMaterials_Units" FromRole="Units" ToRole="RawMaterials" />
+  </EntityType>
+  <Association Name="FK_RawMaterials_Colors">
+    <End Role="Colors" Type="Self.Color" Multiplicity="0..1" />
+    <End Role="RawMaterials" Type="Self.RawMaterial" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Colors">
+        <PropertyRef Name="ColorId" />
+      </Principal>
+      <Dependent Role="RawMaterials">
+        <PropertyRef Name="ColorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RawMaterials_Suppliers">
+    <End Role="Suppliers" Type="Self.Supplier" Multiplicity="0..1" />
+    <End Role="RawMaterials" Type="Self.RawMaterial" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Suppliers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RawMaterials">
+        <PropertyRef Name="SupplierId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RawMaterials_Units">
+    <End Role="Units" Type="Self.Unit" Multiplicity="0..1" />
+    <End Role="RawMaterials" Type="Self.RawMaterial" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Units">
+        <PropertyRef Name="UnitId" />
+      </Principal>
+      <Dependent Role="RawMaterials">
+        <PropertyRef Name="UnitId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ImERPEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Colors" EntityType="Self.Color" />
+    <EntitySet Name="RawMaterials" EntityType="Self.RawMaterial" />
+    <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
+    <EntitySet Name="Units" EntityType="Self.Unit" />
+    <AssociationSet Name="FK_RawMaterials_Colors" Association="Self.FK_RawMaterials_Colors">
+      <End Role="Colors" EntitySet="Colors" />
+      <End Role="RawMaterials" EntitySet="RawMaterials" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RawMaterials_Suppliers" Association="Self.FK_RawMaterials_Suppliers">
+      <End Role="Suppliers" EntitySet="Suppliers" />
+      <End Role="RawMaterials" EntitySet="RawMaterials" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RawMaterials_Units" Association="Self.FK_RawMaterials_Units">
+      <End Role="Units" EntitySet="Units" />
+      <End Role="RawMaterials" EntitySet="RawMaterials" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Colors_Colors" Association="ImERPModel.FK_Colors_Colors">
+      <End Role="Color" EntitySet="Colors" />
+      <End Role="Color1" EntitySet="Colors" />
+    </AssociationSet>
+    <EntitySet Name="Categories" EntityType="ImERPModel.Category" />
+    <EntitySet Name="Departments" EntityType="ImERPModel.Department" />
+    <AssociationSet Name="FK_RawMaterials_Departments" Association="ImERPModel.FK_RawMaterials_Departments">
+      <End Role="Department" EntitySet="Departments" />
+      <End Role="RawMaterial" EntitySet="RawMaterials" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK_Colors_Colors">
+    <End Type="ImERPModel.Color" Role="Color" Multiplicity="1" />
+    <End Type="ImERPModel.Color" Role="Color1" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Color">
+        <PropertyRef Name="ColorId" />
+      </Principal>
+      <Dependent Role="Color1">
+        <PropertyRef Name="ColorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="RawMaterials" Relationship="ImERPModel.FK_RawMaterials_Departments" FromRole="Department" ToRole="RawMaterial" />
+  </EntityType>
+  <Association Name="FK_RawMaterials_Departments">
+    <End Type="ImERPModel.Department" Role="Department" Multiplicity="0..1" />
+    <End Type="ImERPModel.RawMaterial" Role="RawMaterial" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RawMaterial">
+        <PropertyRef Name="DepartmentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
